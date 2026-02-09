@@ -25,18 +25,32 @@ impl Player {
         d3d.draw_model_ex(
             &self.model,
             self.position,
-            Vector3::new(0.0, 0.0, 0.0),
+            Vector3::new(0.0, 1.0, 0.0),
             self.rotation_angle,
             Vector3::new(1.0, 1.0, 1.0),
             Color::WHITE,
         );
     }
 
+    #[rustfmt::skip]
     pub fn update(&mut self, rl: &mut RaylibHandle, delta_time: f32) {
         if rl.is_key_down(KeyboardKey::KEY_S) {
+
             self.position.z += self.speed * delta_time;
+            self.rotation_angle = 0.0;
+
         } else if rl.is_key_down(KeyboardKey::KEY_W) {
+
             self.position.z -= self.speed * delta_time;
+            self.rotation_angle = -180.0;
+
+        } else if rl.is_key_down(KeyboardKey::KEY_D) {
+            self.position.x += self.speed * delta_time;
+            self.rotation_angle = 90.0;
+
+        } else if rl.is_key_down(KeyboardKey::KEY_A) {
+            self.position.x -= self.speed * delta_time;
+            self.rotation_angle = -90.0;
         }
     }
 }
