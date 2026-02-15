@@ -1,17 +1,12 @@
 use raylib::prelude::*;
-
-enum FaceDirection {
-    Side,
-    Up,
-    Down,
-}
+use crate::core::FaceDirection;
 
 pub struct Player {
     idle_side_texture: Texture2D,
     idle_up_texture: Texture2D,
     idle_down_texture: Texture2D,
     src_rect: Rectangle,
-    dest_rect: Rectangle,
+    pub dest_rect: Rectangle,
     pub collision_rect: Rectangle,
     speed: f32,
     is_flipped: bool,
@@ -19,7 +14,7 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new(rl: &mut RaylibHandle, thread: &RaylibThread) -> Self {
+    pub fn new(rl: &mut RaylibHandle, thread: &RaylibThread, pos_x: f32, pos_y: f32) -> Self {
 
         let idle_side_texture = rl.load_texture(thread, "assets/player/Idle_base/Idle_Side-Sheet.png")
             .expect("Failed to load player idle side texture");
@@ -35,11 +30,12 @@ impl Player {
             idle_up_texture,
             idle_down_texture,
             src_rect: Rectangle::new(0.0,0.0,64.0,64.0),
-            dest_rect: Rectangle::new(200.0,200.0,64.0,64.0),
+            dest_rect: Rectangle::new(pos_x,pos_y,64.0,64.0),
             collision_rect: Rectangle::new(0.0,0.0,64.0,64.0),
             speed: 100.0,
             is_flipped: false,
             direction: FaceDirection::Side,
+            
         }
     }
 

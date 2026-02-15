@@ -3,7 +3,7 @@ use raylib::prelude::*;
 pub struct Zombie {
     idle_side_texture: Texture2D,
     src_rect: Rectangle,
-    dest_rect: Rectangle,
+    pub dest_rect: Rectangle,
     pub collision_rect: Rectangle,
 }
 
