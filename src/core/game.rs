@@ -1,12 +1,14 @@
 use crate::core::player::Player;
 use crate::core::zombie::Zombie;
 use raylib::prelude::*;
+use crate::core::combat::Combat;
 use crate::core::GameState;
 
 pub struct Game {
     player: Player,
     zombies: Vec<Zombie>,
     game_state: GameState,
+    combat: Combat,
 }
 
 impl Game {
@@ -18,6 +20,7 @@ impl Game {
             player: Player::new(rl, thread, 200.0,200.0),
             zombies,
             game_state: GameState::FreeRoam,
+            combat: Combat::new(),
         }
     }
 
@@ -25,11 +28,25 @@ impl Game {
         self.spawn_zombies(rl,thread);
     }
     pub fn draw(&mut self, d: &mut RaylibDrawHandle) {
-        self.player.draw(d);
 
-        for z in &mut self.zombies {
-            z.draw(d);
+        match self.game_state {
+            GameState::FreeRoam => {
+                self.player.draw(d);
+                for z in &mut self.zombies {
+                    z.draw(d);
+                }
+            }
+            GameState::Combat => {
+
+                self.player.draw(d);
+                for z in &mut self.zombies {
+                    z.draw(d);
+                }
+
+                self.combat.handle_combat_drawing(d);
+            }
         }
+
     }
 
     pub fn update(&mut self, rl: &mut RaylibHandle, delta_time: f32) {

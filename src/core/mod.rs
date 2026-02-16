@@ -1,6 +1,8 @@
 pub mod game;
 mod player;
 mod zombie;
+mod combat;
+
 
 enum GameState {
     FreeRoam,
@@ -11,4 +13,9 @@ enum FaceDirection {
     Side,
     Up,
     Down,
+}
+
+enum CombatTurn {
+    Player,
+    Enemy,
 }
